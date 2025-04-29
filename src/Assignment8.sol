@@ -1,31 +1,23 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";    
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
-// make this contract inherits from: ERC721URIStorage contract
-contract Assignment8 {
-    // declare a private uint called _tokenIdCounter
+// العقد يرث من ERC721URIStorage و Ownable
+contract Assignment8 is ERC721URIStorage, Ownable {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIdCounter;
 
-    // pass name and symbol of the nft token collection
-    constructor() ERC721() {
-        
-    }
+    constructor() ERC721("MyNFT", "MNFT") {}
 
-    // make this function visibility: external
-    // pass string json uri parameter
-    // restrict this function to be called only by the owner
-        // Hint: You can use OpenZeppelin Ownable contract imported above
-    
-    function mintNFT() {
-        // call _mint to mint a new nft to the function caller
-
-        // set token uri to the token id using _setTokenURI
-
-        // increment token id counter
-
+    // دالة mint خارجية ومقيدة فقط بالمالك
+    function mintNFT(address to, string memory uri) external onlyOwner {
+        uint256 tokenId = _tokenIdCounter.current();
+        _mint(to, tokenId);
+        _setTokenURI(tokenId, uri);
+        _tokenIdCounter.increment();
     }
 
 }
