@@ -5,19 +5,17 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-// العقد يرث من ERC721URIStorage و Ownable
 contract Assignment8 is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("MyNFT", "MNFT") {}
+    // تمرير العنوان للـ Ownable constructor
+    constructor() ERC721("MyNFT", "MNFT") Ownable(msg.sender) {}
 
-    // دالة mint خارجية ومقيدة فقط بالمالك
     function mintNFT(address to, string memory uri) external onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _mint(to, tokenId);
         _setTokenURI(tokenId, uri);
         _tokenIdCounter.increment();
     }
-
 }
