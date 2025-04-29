@@ -9,8 +9,7 @@ contract Assignment8 is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
 
-    // تمرير العنوان للـ Ownable constructor
-    constructor() ERC721("MyNFT", "MNFT") Ownable(msg.sender) {}
+    constructor() ERC721("MyNFT", "MNFT") {}
 
     function mintNFT(address to, string memory uri) external onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
