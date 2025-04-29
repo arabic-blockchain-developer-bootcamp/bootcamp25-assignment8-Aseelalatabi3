@@ -14,11 +14,11 @@ contract Assignment8Test is Test {
 
     function testMintNFTByOwner() public {
         // Mint an NFT to the test contract (owner calling)
-        assignment.mintNFT(temporaryUriForTesting);
+        assignment.mintNFT(address(this), temporaryUriForTesting);  // تعديل هنا: تمرير العنوان بالإضافة للـ URI
 
         // Check ownership of the minted NFT
         address owner = assignment.ownerOf(0);
-        assertEq(owner, address(this), "Owner of token ID 1 should be the test contract");
+        assertEq(owner, address(this), "Owner of token ID 0 should be the test contract");
     }
 
     function testMintNFTByNonOwner() public {
@@ -28,6 +28,6 @@ contract Assignment8Test is Test {
 
         // Expect the transaction to revert
         vm.expectRevert();
-        assignment.mintNFT(temporaryUriForTesting);
+        assignment.mintNFT(nonOwner, temporaryUriForTesting);  // تعديل هنا: تمرير العنوان بالإضافة للـ URI
     }
 }
